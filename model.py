@@ -1,9 +1,12 @@
 import torch.nn as nn
 from torchvision import models
 
-def build_model(num_classes = 2):
-    # load ResNet18 with weights pretrained on imageNet
-    model = models.resnet18(weights = models.ResNet18_Weights.DEFAULT)
+
+def build_model(num_classes=2, pretrained=True):
+    # pretrained=True: start from ImageNet weights (for training)
+    # pretrained=False: empty network (for loading our own saved weights)
+    weights = models.ResNet18_Weights.DEFAULT if pretrained else None
+    model = models.resnet18(weights=weights)
 
     # Freeze all pretrained layers so they are not changed at first
     for param in model.parameters():
@@ -11,7 +14,9 @@ def build_model(num_classes = 2):
 
     # Replace the final layer: 512 features -> 2 classes
     model.fc = nn.Linear(model.fc.in_features, num_classes)
+
     return model
+
 
 if __name__ == "__main__":
     model = build_model()
