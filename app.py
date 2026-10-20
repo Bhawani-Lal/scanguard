@@ -1,7 +1,6 @@
-import numpy as np
 import streamlit as st
 from PIL import Image
-from predict import load_model, load_threshold, predict
+from predict import load_model, load_threshold, predict, looks_like_casting
 
 st.set_page_config(page_title="ScanGuard", page_icon="🔍", layout="centered")
 
@@ -13,13 +12,6 @@ REVIEW_BAND = (0.20, 0.60)
 def get_model_and_threshold():
     # Loaded once, then reused for every upload
     return load_model(), load_threshold()
-
-
-def looks_like_casting(image):
-    """Training images are greyscale. A very colourful image is probably not a casting photo."""
-    arr = np.asarray(image.convert("RGB"), dtype=np.float32)
-    colourfulness = np.mean(np.abs(arr[..., 0] - arr[..., 1]) + np.abs(arr[..., 1] - arr[..., 2]))
-    return colourfulness < 15
 
 
 model, threshold = get_model_and_threshold()
@@ -36,7 +28,7 @@ if uploaded is not None:
 
     if not looks_like_casting(image):
         st.warning("This doesn't look like a casting inspection photo. ScanGuard was trained "
-                   "only on greyscale images of cast impellers, so any result would be unreliable.")
+                   "only on square greyscale images of cast impellers, so any result would be unreliable.")
     else:
         label, p_def = predict(image, model, threshold)
 

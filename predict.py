@@ -27,6 +27,18 @@ def load_threshold(path="threshold.txt"):
     with open(path) as f:
         return float(f.read().strip())
 
+def looks_like_casting(image):
+    """Heuristic check: training images are square and greyscale.
+    Rejects clearly different inputs (colour photos, portrait documents).
+    Not a guarantee: a square greyscale photo of something else would still pass."""
+    import numpy as np
+    width, height = image.size
+    if not 0.8 <= width / height <= 1.25:
+        return False
+    arr = np.asarray(image.convert("RGB"), dtype=np.float32)
+    colourfulness = np.mean(np.abs(arr[..., 0] - arr[..., 1]) + np.abs(arr[..., 1] - arr[..., 2]))
+    return colourfulness < 15
+
 
 def predict(image, model, threshold):
     """Take a PIL image, return (label, probability of defective)."""
