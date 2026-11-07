@@ -1,6 +1,6 @@
 import os
 
-dataset_path = r"C:\Users\bhawa\.cache\kagglehub\datasets\ravirajsinh45\real-life-industrial-dataset-of-casting-product\versions\2"
+dataset_path = "data"
 
 for root, dirs,files in os.walk(dataset_path):
     print(f"`Folder:{root}")

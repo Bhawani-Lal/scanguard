@@ -2,8 +2,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 
-base_path = r"C:\Users\bhawa\.cache\kagglehub\datasets\ravirajsinh45\real-life-industrial-dataset-of-casting-product\versions\2\casting_data\casting_data\train"
-
+base_path = "data/casting_data/train"
 defective_folder = os.path.join(base_path, "def_front")
 ok_folder = os.path.join(base_path, "ok_front")
 

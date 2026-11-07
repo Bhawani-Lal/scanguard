@@ -3,7 +3,7 @@ import torch
 from torch.utils.data import DataLoader, random_split
 from torchvision import datasets, transforms
 
-base_path = r"C:\Users\bhawa\.cache\kagglehub\datasets\ravirajsinh45\real-life-industrial-dataset-of-casting-product\versions\2\casting_data\casting_data"
+base_path = os.path.join("data", "casting_data")
 train_dir = os.path.join(base_path, "train")
 test_dir = os.path.join(base_path, "test")
 
